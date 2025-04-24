@@ -1,0 +1,12 @@
+h2{
+    font-style: italic;
+    border: dashed red;
+    width: 300px;
+    display: grid;
+}
+h1{
+    font-style: italic;
+    border: dashed red;
+    width: 400px;
+    height: 50px;
+}
