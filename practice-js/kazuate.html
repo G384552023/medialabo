@@ -5,15 +5,14 @@
     <title>数当てゲーム</title>
     <script src="kazuate.js" defer></script>
   </head>
-
   <body>
     <h1>数当てゲーム</h1>
-    <label for="yoso"></label>
-    <input type="text" name="yoso" id="kaisu" size="10">
-    <button id="calc">答え</button>
-    <p><span id="kaisu"></span>回目の予想: <span id="answer"></span></p>
-    <p id="result"></p>
+    <label for="yoso">1から10の間の整数:</label>
+    <input type="text" id="yoso" size="3">
+    <button id="calc">回答</button>
     
+    <p><span id="kaisu">0</span>回目の予想: <span id='answer'></span></p>
+    <p id="result"></p>
   </body>
 </html>
 
