@@ -1,7 +1,7 @@
 
 // 課題3-2 のプログラムはこの関数の中に記述すること
 let genre ={
-  {name:""}
+  
 }
 function print(data) {
 

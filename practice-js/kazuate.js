@@ -6,10 +6,8 @@ let kaisu = 0;
 
 let seikai = false;
 
-hantei();
-hantei();
-hantei();
-hantei();
+let b = document.querySelector('span#kaisu');
+b.addEventListener('click', showSelectResult);
 
 function hantei() {
   let yoso = 4;
