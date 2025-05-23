@@ -1,8 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>URL</key>
-	<string>https://www.nishita-lab.org/web-contents/text_current/practice-dom2/dom-css-test.css</string>
-</dict>
-</plist>
+li {
+	color: blue;
+}
+
+li.notice {
+	color: red;
+	font-weight: bold;
+}
+
+li.warning {
+	background-color: cyan;
+	border: 1px navy solid;
+}
+
