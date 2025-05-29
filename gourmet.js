@@ -1,12 +1,74 @@
 
 // 課題3-2 のプログラムはこの関数の中に記述すること
 function print(data) {
+  const shops = data.results.shop;
 
+  for (const shop of shops) {
+    console.log("店名:", shop.name);
+    console.log("ジャンル:", shop.genre.name);
+    console.log("住所:", shop.address);
+    console.log("アクセス:", shop.access);
+    console.log("予算:", shop.budget.name);
+    console.log("URL:", shop.urls.pc);
+    console.log("--------------");
+  }
 }
 
 // 課題5-1 の関数 printDom() はここに記述すること
 function printDom(data) {
+  // 1. div#result を作成
+  const resultDiv = document.createElement('div');
+  resultDiv.id = 'result';
+  document.body.appendChild(resultDiv);
 
+  // 2. 店舗情報を表示
+  const shops = data.results.shop;
+
+  for (const shop of shops) {
+    const shopDiv = document.createElement('div');
+    shopDiv.className = 'shop';
+
+    // 店名
+    const name = document.createElement('h2');
+    name.textContent = shop.name;
+    shopDiv.appendChild(name);
+
+    // ジャンル
+    const genre = document.createElement('p');
+    genre.textContent = `ジャンル: ${shop.genre.name}`;
+    shopDiv.appendChild(genre);
+
+    // 住所
+    const address = document.createElement('p');
+    address.textContent = `住所: ${shop.address}`;
+    shopDiv.appendChild(address);
+
+    // アクセス
+    const access = document.createElement('p');
+    access.textContent = `アクセス: ${shop.access}`;
+    shopDiv.appendChild(access);
+
+    // 予算
+    const budget = document.createElement('p');
+    budget.textContent = `予算: ${shop.budget.name}`;
+    shopDiv.appendChild(budget);
+
+    // URL リンク
+    const link = document.createElement('a');
+    link.href = shop.urls.pc;
+    link.target = '_blank';
+    link.textContent = 'お店のページを見る';
+    shopDiv.appendChild(link);
+
+    // 画像（任意）
+    const img = document.createElement('img');
+    img.src = shop.photo.pc.s;
+    img.alt = shop.name;
+    shopDiv.appendChild(img);
+
+    // 個別店舗を result に追加
+    resultDiv.appendChild(shopDiv);
+  }
 }
 
 // 課題6-1 のイベントハンドラ登録処理は以下に記述

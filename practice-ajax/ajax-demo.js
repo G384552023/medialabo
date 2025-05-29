@@ -8,10 +8,10 @@ function sendRequest() {
 	let url = 'https://www.nishita-lab.org/web-contents/jsons/test.json';
 
 	// 通信開始
-	axios.get(url)
-		.then(showResult)
-		.catch(showError)
-		.then(finish);
+	axios.get(url)//データをとってきて
+		.then(showResult)//データの処理
+		.catch(showError)//通信のエラー処理
+		.then(finish);//最後に実行
 }
 
 // 通信が成功した時の処理
