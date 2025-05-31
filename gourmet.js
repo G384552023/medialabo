@@ -1,7 +1,7 @@
 
 // 課題3-2 のプログラムはこの関数の中に記述すること
 function print(data) {
-  const shops = data.results.shop;
+  let shops = data.results.shop;
 
   for (const shop of shops) {
     console.log("店名:", shop.name);
@@ -16,84 +16,69 @@ function print(data) {
 
 // 課題5-1 の関数 printDom() はここに記述すること
 function printDom(data) {
-  // 1. div#result を作成
-  const resultDiv = document.createElement('div');
-  resultDiv.id = 'result';
+  const keywordInput = document.querySelector('#searchInput');
+  if (!keywordInput) {
+    console.error('検索ボックスが見つかりません。');
+    return;
+  }
+  let keyword = keywordInput.value.trim().toLowerCase();
+
+  let old = document.querySelector('#result');
+  if (old) old.remove();
+
+  let resultDiv = document.createElement("div");
+  resultDiv.id = "result";
   document.body.appendChild(resultDiv);
 
-  // 2. 店舗情報を表示
-  const shops = data.results.shop;
+  let shops = data.results.shop;
+  let count = 0;
 
-  for (const shop of shops) {
-    const shopDiv = document.createElement('div');
-    shopDiv.className = 'shop';
+  for (let shop of shops) {
+    let name = shop.name.toLowerCase();
+    let address = shop.address;
 
-    // 店名
-    const name = document.createElement('h2');
-    name.textContent = shop.name;
-    shopDiv.appendChild(name);
+    if (keyword === '' || name.includes(keyword)) {
+      let p = document.createElement("p");
+      p.textContent = "店名: " + shop.name + "　住所: " + address;
+      resultDiv.appendChild(p);
+      count++;
+    }
+  }
 
-    // ジャンル
-    const genre = document.createElement('p');
-    genre.textContent = `ジャンル: ${shop.genre.name}`;
-    shopDiv.appendChild(genre);
-
-    // 住所
-    const address = document.createElement('p');
-    address.textContent = `住所: ${shop.address}`;
-    shopDiv.appendChild(address);
-
-    // アクセス
-    const access = document.createElement('p');
-    access.textContent = `アクセス: ${shop.access}`;
-    shopDiv.appendChild(access);
-
-    // 予算
-    const budget = document.createElement('p');
-    budget.textContent = `予算: ${shop.budget.name}`;
-    shopDiv.appendChild(budget);
-
-    // URL リンク
-    const link = document.createElement('a');
-    link.href = shop.urls.pc;
-    link.target = '_blank';
-    link.textContent = 'お店のページを見る';
-    shopDiv.appendChild(link);
-
-    // 画像（任意）
-    const img = document.createElement('img');
-    img.src = shop.photo.pc.s;
-    img.alt = shop.name;
-    shopDiv.appendChild(img);
-
-    // 個別店舗を result に追加
-    resultDiv.appendChild(shopDiv);
+  if (count === 0) {
+    resultDiv.textContent = "該当するお店がありません。";
   }
 }
 
+
+
 // 課題6-1 のイベントハンドラ登録処理は以下に記述
-
-
-
-
-// 課題6-1 のイベントハンドラ sendRequest() の定義
+let a = document.querySelector('button#sendRequest');
+a.addEventListener('click', sendRequest);
 function sendRequest() {
-
+  let url="https://www.nishita-lab.org/web-contents/jsons/hotpepper/G001.json";
+  axios.get(url)
+     .then(showResult)
+     .catch(showError)
+     .then(finish)
 }
 
-// 課題6-1: 通信が成功した時の処理は以下に記述
 function showResult(resp) {
-
+  let data = resp.data;
+  if (typeof data === 'string') {
+    data = JSON.parse(data);
+  }
+  printDom(data); 
 }
 
 // 課題6-1: 通信エラーが発生した時の処理
 function showError(err) {
-    console.log(err);
+  console.log(err);
 }
 
 // 課題6-1: 通信の最後にいつも実行する処理
 function finish() {
-    console.log('Ajax 通信が終わりました');
+  console.log('Ajax 通信が終わりました');
 }
 
 ////////////////////////////////////////
