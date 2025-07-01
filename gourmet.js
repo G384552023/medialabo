@@ -55,13 +55,27 @@ function printDom(data) {
 // 課題6-1 のイベントハンドラ登録処理は以下に記述
 let a = document.querySelector('button#sendRequest');
 a.addEventListener('click', sendRequest);
-function sendRequest() {
-  let url="https://www.nishita-lab.org/web-contents/jsons/hotpepper/G001.json";
-  axios.get(url)
-     .then(showResult)
-     .catch(showError)
-     .then(finish)
+async function sendRequest() {
+  const genreCodes = ['G001', 'G002', 'G003', 'G004', 'G005'];
+  let allShops = [];
+
+  for (let code of genreCodes) {
+    const url = `https://www.nishita-lab.org/web-contents/jsons/hotpepper/${code}.json`;
+    try {
+      const resp = await axios.get(url);
+      let data = resp.data;
+      if (typeof data === 'string') {
+        data = JSON.parse(data);
+      }
+      allShops = allShops.concat(data.results.shop);
+    } catch (err) {
+      console.error(`ジャンル${code}の取得に失敗:`, err);
+    }
+  }
+
+  printDom({ results: { shop: allShops } });
 }
+
 
 function showResult(resp) {
   let data = resp.data;
