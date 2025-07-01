@@ -3,17 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>JavaScript のオブジェクト</title>
-	<script src="obj-practice.js" defer></script>
+    <style>
+      body { font-family: sans-serif; padding: 20px; }
+      h2 { color: #0066cc; }
+      ul { margin-bottom: 20px; }
+    </style>
   </head>
 
   <body>
     <h1>オブジェクトのメンバーを出力する</h1>
 
-    <p>コンソールに次の3つを出力しましょう</p>
-	<ol>
-		<li>キャンパスの住所</li>
-		<li>D館の教室名（for-of 構文を使うこと）</li>
-		<li>日本語の学科名（for-of 構文を使うこと）</li>
-	</ol>
-  </body>
-</html>
+    <p>次の3つの情報を画面に表示します：</p>
+    <ol>
+      <li>キャンパスの住所</li>
+      <li>D館の教室名</li>
+      <li>日本語の学科名</li>
+    </ol>
+
+    <div id="output"></div>

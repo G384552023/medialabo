@@ -14,29 +14,26 @@ let gakka = [
 ];
 
 //////////////// ここから下にプログラムを書きたそう!
-let p=document.querySelector('button#show');
-p.addEventListener('click',greeting);
-function greeting() {
-	console.log(campus.address);
-    let a =document.createElement('ul');
-    a.textContent=campus.address;
-	let b=document.querySelector('h2#addr');
-	b.insertAdjacentElement('beforeend',a);
-for(let gakka1 of gakka) {
-	console.log(gakka1.name);
-    let l =document.createElement('li');
-    l.textContent=gakka1.name;
-	let u=document.querySelector('h2#dept');
-	u.insertAdjacentElement('beforeend',l);
+function show() {
+	let oldP = document.querySelector('#addr + p');
+	if (oldP) oldP.remove();
+
+	let oldUl = document.querySelector('#dept + ul');
+	if (oldUl) oldUl.remove();
+
+	let p = document.createElement('p');
+	p.textContent = campus.address;
+	let addrH2 = document.querySelector('h2#addr');
+	addrH2.insertAdjacentElement('afterend', p);
+
+	let ul = document.createElement('ul');
+	for (let g of gakka) {
+		let li = document.createElement('li');
+		li.textContent = g.name;
+		ul.appendChild(li);
+	}
+	let deptH2 = document.querySelector('h2#dept');
+	deptH2.insertAdjacentElement('afterend', ul);
 }
-}
-
-console.log(campus.address);
-
-for (let gakka1 of gakka) {
-	console.log(gakka1.name);
-  }
-
-	
-
-  
+let btn = document.querySelector('button#show');
+btn.addEventListener('click', show);
