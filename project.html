@@ -1,13 +1,40 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="gourmet.js" defer></script>
-</head>
-<body>
-  <h1>グルメの検索結果</h1>
-  <input type="text" id="searchInput">
-  <button id="sendRequest">検索</button>
-</body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>グルメ検索</title>
+    <link rel="stylesheet" href="project.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script defer src="gourmet.js"></script>
+  </head>
+  <body>
+    <h1>グルメ検索結果</h1>
+
+    <p>
+      ジャンルを選択：
+      <select name="genre" id="genre">
+        <option value="">ジャンルを選んでください</option>
+        <option value="001">居酒屋</option>
+        <option value="002">ダイニングバー・バル</option>
+        <option value="003">創作料理</option>
+        <option value="004">和食</option>
+        <option value="005">洋食</option>
+        <option value="006">イタリアン・フレンチ</option>
+        <option value="007">中華</option>
+        <option value="008">焼肉・ホルモン</option>
+        <option value="009">アジア・エスニック料理</option>
+        <option value="010">各国料理</option>
+        <option value="011">カラオケ・パーティ</option>
+        <option value="012">バー・カクテル</option>
+        <option value="013">ラーメン</option>
+        <option value="014">カフェ・スイーツ</option>
+        <option value="015">その他グルメ</option>
+        <option value="016">お好み焼き・もんじゃ</option>
+        <option value="017">韓国料理</option>
+      </select>
+
+      <input type="text" id="searchInput" placeholder="店名フィルター（任意）">
+      <button id="kensaku">検索</button>
+    </p>
+  </body>
 </html>
