@@ -1,79 +1,58 @@
-// 通信して取得したデータをコンソールに出力する（課題3-2）
-function print(data) {
-  let shops = data.results.shop;
+document.addEventListener('DOMContentLoaded', () => {
+  const button = document.getElementById('kensaku');
+  button.addEventListener('click', fetchGourmetData);
+});
 
-  for (const shop of shops) {
-    console.log("店名:", shop.name);
-    console.log("ジャンル:", shop.genre.name);
-    console.log("住所:", shop.address);
-    console.log("アクセス:", shop.access);
-    console.log("予算:", shop.budget.name);
-    console.log("URL:", shop.urls.pc);
-    console.log("--------------");
-  }
-}
+function fetchGourmetData() {
+  const genreSelect = document.getElementById('genre');
+  const genreValue = genreSelect.value;
 
-// DOMに検索結果を表示する（課題5-1）
-function printDom(data) {
-  const keywordInput = document.querySelector('#searchInput');
-  let keyword = keywordInput.value.trim().toLowerCase();
-
-  let old = document.querySelector('#result');
-  if (old) old.remove();
-
-  let resultDiv = document.createElement("div");
-  resultDiv.id = "result";
-  document.body.appendChild(resultDiv);
-
-  let shops = data.results.shop;
-  let count = 0;
-
-  for (let shop of shops) {
-    let name = shop.name.toLowerCase();
-    let address = shop.address;
-
-    if (keyword === '' || name.includes(keyword)) {
-      let p = document.createElement("p");
-      p.textContent = `店名: ${shop.name}　住所: ${address}`;
-      resultDiv.appendChild(p);
-      count++;
-    }
-  }
-
-  if (count === 0) {
-    resultDiv.textContent = "該当するお店がありません。";
-  }
-}
-
-// ジャンル選択してAPIリクエストを送る処理（課題6-1）
-function sendRequest() {
-  const genreSelect = document.querySelector('#genre');
-  const genreId = genreSelect.value;
-
-  if (!genreId) {
-    alert("ジャンルを選択してください");
+  if (!genreValue) {
+    alert('ジャンルを選んでください。');
     return;
   }
 
-  const url = `https://www.nishita-lab.org/web-contents/jsons/hotpepper/G${genreId}.json`;
+  // ジャンルコードに「G」をつける（例：006 → G006）
+  const genreCode = 'G' + genreValue.padStart(3, '0');
+  const url = `https://www.nishita-lab.org/web-contents/jsons/hotpepper/${genreCode}.json`;
 
   axios.get(url)
-    .then(response => printDom(response.data))
-    .catch(showError)
-    .then(finish);
+    .then(response => showResults(response.data))
+    .catch(error => {
+      console.error('データの取得に失敗しました:', error);
+      alert('データの取得に失敗しました。');
+    });
 }
 
-// 通信エラー処理（課題6-1）
-function showError(err) {
-  console.log("通信エラー:", err);
-}
+function showResults(data) {
+  let shops = data.results.shop;
 
-// 通信完了後の処理（課題6-1）
-function finish() {
-  console.log("Ajax 通信が完了しました");
-}
+  // 古い結果を削除
+  let oldResult = document.getElementById('result');
+  if (oldResult) oldResult.remove();
 
-// ページ読み込み後にイベントハンドラ登録
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelector('#kensaku').addEventListener('click', sendRequest);
-});
+  let resultDiv = document.createElement('div');
+  resultDiv.id = 'result';
+
+  if (!shops || shops.length === 0) {
+    resultDiv.innerHTML = '<p>該当する店舗が見つかりませんでした。</p>';
+  } else {
+    for (let shop of shops) {
+      const shopInfo = `
+        <hr>
+        <p><strong>店舗名:</strong> ${shop.name}</p>
+        <p><strong>住所:</strong> ${shop.address}</p>
+        <p><strong>アクセス:</strong> ${shop.access}</p>
+        <p><strong>最寄駅:</strong> ${shop.station_name}</p>
+        <p><strong>ジャンル:</strong> ${shop.genre.name}</p>
+        <p><strong>サブジャンル:</strong> ${shop.sub_genre ? shop.sub_genre.name : 'なし'}</p>
+        <p><strong>予算:</strong> ${shop.budget.name}</p>
+        <p><strong>キャッチコピー:</strong> ${shop.catch}</p>
+        <p><strong>営業時間:</strong> ${shop.open}</p>
+      `;
+      resultDiv.innerHTML += shopInfo;
+    }
+  }
+
+  document.body.appendChild(resultDiv);
+}
